@@ -1,97 +1,86 @@
 import numpy as np
-"""name = input("Enter your name: ")
-print("Welcome to Python:" , name)
-
-list1 = ["X","Y","Z"]
-list2 = [1,5,7,9,3]
-list3 = [True,False,False]
-
-print(len(list1))
-print(len(list2))
-print(len(list3))
-
-numbers = (10,20,30,40,50)
-
-print("Tuple:",numbers)
-#Numbers[0] = 5 #creates an error
-print("First element:", numbers[0])
-print("Last element:", numbers[-1])
-
-print("Length:", len(numbers))
-
-print("Elements in the tuple:")
-for num in numbers:
-    print(num)
-    
-import numpy as np
-
-arr = np.array((1,2,3,4,5))
-
-print(arr)
-    
-numbers = np.array([10,20,30,40,50])
-
-print("Array:",numbers)
-
-print("Sum:",np.sum(numbers))
-print("Mean:",np.mean(numbers))
-print("Maximum:",np.max(numbers))
-print("Minimum:",np.min(numbers))
-
-double_numbers = numbers * 2
-print("Array after multiplying by 2:",double_numbers)
-
-def sum_and_average(arr):
-    total = np.sum(arr)
-    average = np.mean(arr)
-    return total, average
-
-numbers = np.array([10,20,30,40,50])
-s,avg = sum_and_average(numbers)
-print("Sum:",s)
-print("Average:",avg)
-
-import numpy as np
-grid = np.zeros((5,5))
-grid[2,:] = 1
-grid[:,2] = 1
-print(grid)
-
-import random
-def guess_game():
-    number = random.randint(1,10)
-    guess = int(input("Guess a number (1-10) : "))
-    if guess == number:
-        print("Correct!")
-    else:
-        print("Wrong! The number was : ",number)
-
-guess_game()"""
-
 import matplotlib.pyplot as plt
+#from matplotlib.patches import Circle
 
-#x2 = np.array([1,3])
-#y2 = np.array([3,1])
-#xpoints = np.array([2,6,2,6,2,6])
-#ypoints = np.array([1,2,3,4,5,6])
-#xpoints = np.array([1,2,6,8])
-#ypoints = np.array([3,8,1,10])
-#newxpoints = np.append(xpoints,[9,17])
-#print(newxpoints)
+class Game:
+    player1 = ""
+    player2 = ""
+    x = []
+    y = []
+    piece =[]
+    result = 0 #still don't know what type i want this to be, should have three results, player 1 win, player 2 win, draw (so boolean is out of the question)
 
-def show():
+
+def play(game):
+    game.player1 = input("Player 1, please enter your name " )
+    game.player2 = input("Player 2, please enter your name " )
+    i=0
+    end = False
+    while (i<9 and end==False):
+        if(i%2 == 0):
+            print(game.player1,"it is your turn \n Please choose where to place your 'X' in x-y coordinates from 1-3 :) \n")
+        else:
+            print(game.player2,"it is your turn \n Please choose where to place your 'O' in x-y coordinates from 1-3 :) \n")
+        xIn = int(input(" enter an x value: ")) 
+        yIn = int(input(" enter a y value: ")) 
+        game.x.append(xIn)
+        game.y.append(yIn)
+        show(game)
+        i+=1
+    return
+        
+
+def show(game): 
     xpoints = np.array([1,1])
-    ypoints = np.array([0,3])
-    crosspoints = [.1,.9]
-    crosspoints2 = [.9,.1]
-    plt.figure(figsize=(5,5))
-    plt.plot(xpoints, ypoints, color = 'black')
-    plt.plot(xpoints*2,ypoints, color = 'black')
-    plt.plot(ypoints,xpoints, color = 'black')
-    plt.plot(ypoints,xpoints*2, color = 'black')
-    plt.plot(crosspoints,crosspoints, color = 'b')
-    plt.plot(crosspoints,crosspoints2, color = 'b')
+    ypoints = np.array([.5,3.5])
+    print("The newest point is at x:",type(game.x[len(game.x)-1])," and  y:",type(game.y[len(game.y)-1]))
+    for i in range(len(game.x)): #is there a way for x in game.x and y in game.y at the same time?
+        print(i)
+        if (i%2==0):
+            print("entered if \n")
+            crosspointsx = np.array([-.4,.4]) + game.x[i] #x coords for the crosss
+            crosspointsy1 = np.array([-.4,.4]) + game.x[i] #y coords for cross line from bl to tr
+            crosspointsy2 = np.array([.4,-.4]) + game.y[i] #y coords for cross line from tl to br
+            plt.figure(figsize=(5,5))
+            plt.plot(xpoints+.5, ypoints, color = 'white') #vert line 1
+            plt.plot(xpoints+1.5,ypoints, color = 'white') #vert line 2
+            plt.plot(ypoints,xpoints+.5, color = 'white') #hori line 1
+            plt.plot(ypoints,xpoints+1.5, color = 'white') #hori line 2
+            plt.plot(crosspointsx,crosspointsy1, color = 'b')
+            plt.plot(crosspointsx,crosspointsy2, color = 'b')
+        else:
+            print("entered else \n")
+            theta = np.linspace(0, 2*np.pi, 100)
+            r= .45
+            x = r*np.cos(theta) + game.x[i] 
+            y = r*np.sin(theta) + game.y[i] 
+            plt.plot(x,y)
+    plt.gca().set_facecolor('black') 
+    plt.xticks([1,2,3], ['1', '2', '3'])
+    plt.yticks([1,2,3], ['1', '2', '3'])
     plt.show()
+exit = False
+
+matchhistory = []
+
+while (exit==False):
+    #x,y = 1,1
+    #show()
+    
+
+
+
+
+    #print("x:",type(x)," and  y:",type(y))
+    #show(x,y)
+    
+    
+    currentGame = Game()
+    play(currentGame)
+    
+    exit = True
+
+
 
 
 show()
