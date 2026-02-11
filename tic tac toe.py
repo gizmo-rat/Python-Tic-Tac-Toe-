@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 #from matplotlib.patches import Circle
 
 class Game:
@@ -7,7 +8,6 @@ class Game:
     player2 = ""
     x = []
     y = []
-    piece =[]
     result = 0 #still don't know what type i want this to be, should have three results, player 1 win, player 2 win, draw (so boolean is out of the question)
 
 
@@ -39,7 +39,7 @@ def show(game):
         if (i%2==0):
             print("entered if \n")
             crosspointsx = np.array([-.4,.4]) + game.x[i] #x coords for the crosss
-            crosspointsy1 = np.array([-.4,.4]) + game.x[i] #y coords for cross line from bl to tr
+            crosspointsy1 = np.array([-.4,.4]) + game.y[i] #y coords for cross line from bl to tr
             crosspointsy2 = np.array([.4,-.4]) + game.y[i] #y coords for cross line from tl to br
             plt.figure(figsize=(5,5))
             plt.plot(xpoints+.5, ypoints, color = 'white') #vert line 1
@@ -54,27 +54,17 @@ def show(game):
             r= .45
             x = r*np.cos(theta) + game.x[i] 
             y = r*np.sin(theta) + game.y[i] 
-            plt.plot(x,y)
+            plt.plot(x,y, color = 'red')
     plt.gca().set_facecolor('black') 
     plt.xticks([1,2,3], ['1', '2', '3'])
     plt.yticks([1,2,3], ['1', '2', '3'])
     plt.show()
+    os.system('cls')
 exit = False
 
 matchhistory = []
 
-while (exit==False):
-    #x,y = 1,1
-    #show()
-    
-
-
-
-
-    #print("x:",type(x)," and  y:",type(y))
-    #show(x,y)
-    
-    
+while (exit==False): 
     currentGame = Game()
     play(currentGame)
     
